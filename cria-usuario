@@ -1,0 +1,27 @@
+#!/bin/bash
+
+# Este script adiciona um novo usuário ao sistema
+
+# Verifica se tem os argumentos necessários
+if  "$#" -ne 1 ; then
+    echo "Você deve fornecer um nome de usuário como argumento para este script."
+    exit
+fi
+
+# Cria o novo usuário
+useradd $1
+
+# Define a senha para o novo usuário
+echo "Digite uma senha para o usuário $1:"
+passwd $1
+
+# Cria as pastas do usuário
+mkdir -p /home/$1/.ssh
+chown $1:$1 /home/$1/.ssh
+
+# Define as permissões de acesso
+chmod 700 /home/$1/.ssh
+
+# Exibe os detalhes do usuário
+echo "Usuário $1 criado com sucesso!"
+cat /etc/passwd | grep $1
